@@ -8,9 +8,6 @@
       }"
       :title="$t('workplace.contentData')"
     >
-      <template #extra>
-        <a-link>{{ $t('workplace.viewMore') }}</a-link>
-      </template>
       <Chart height="289px" :option="chartOption" />
     </a-card>
   </a-spin>
@@ -76,8 +73,7 @@
           show: true,
           interval: (idx: number) => {
             if (idx === 0) return false;
-            if (idx === xAxis.value.length - 1) return false;
-            return true;
+            return idx !== xAxis.value.length - 1;
           },
           lineStyle: {
             color: '#E5E8EF',

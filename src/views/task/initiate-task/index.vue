@@ -1,27 +1,23 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.user', '工作台']" />
-    <UserInfoHeader />
     <div class="left-side" style="margin-top: 12px">
       <div class="panel">
-        <Banner />
-        <DataPanel />
-        <ContentChart />
+        <Notice />
+        <PlaceAnOrder />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import UserInfoHeader from './components/user-info-header.vue';
-  import Banner from './components/banner.vue';
-  import DataPanel from './components/data-panel.vue';
-  import ContentChart from './components/content-chart.vue';
+  import Notice from './components/notice.vue';
+  import PlaceAnOrder from './components/place-an-order.vue';
 </script>
 
 <script lang="ts">
   export default {
-    name: 'Dashboard', // If you want the include property of keep-alive to take effect, you must name the component
+    name: 'Task',
   };
 </script>
 
@@ -42,6 +38,7 @@
   }
 
   .panel {
+    padding: 20px;
     overflow: auto;
     background-color: var(--color-bg-2);
     border-radius: 4px;
