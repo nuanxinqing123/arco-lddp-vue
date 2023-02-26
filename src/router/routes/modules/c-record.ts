@@ -25,7 +25,8 @@ const DASHBOARD: AppRouteRecordRaw = {
     {
       path: 'records-of-consumption',
       name: 'records-of-consumption',
-      component: () => import('@/views/task/initiate-task/index.vue'),
+      component: () =>
+        import('@/views/record/records-of-consumption/index.vue'),
       meta: {
         locale: '消费记录',
         requiresAuth: true,
@@ -35,7 +36,7 @@ const DASHBOARD: AppRouteRecordRaw = {
     {
       path: 'recharge-record',
       name: 'recharge-record',
-      component: () => import('@/views/task/initiate-task/index.vue'),
+      component: () => import('@/views/record/recharge-record/index.vue'),
       meta: {
         locale: '充值记录',
         requiresAuth: true,
@@ -45,7 +46,7 @@ const DASHBOARD: AppRouteRecordRaw = {
     {
       path: 'login-log',
       name: 'login-log',
-      component: () => import('@/views/task/initiate-task/index.vue'),
+      component: () => import('@/views/record/login-log/index.vue'),
       meta: {
         locale: '登录日志',
         requiresAuth: true,

@@ -28,6 +28,7 @@ export default mergeConfig(
       },
       chunkSizeWarningLimit: 2000,
     },
+    base: process.env.VITE_TEST === 'development' ? './' : '/static/', // 公共路径,
   },
   baseConfig
 );

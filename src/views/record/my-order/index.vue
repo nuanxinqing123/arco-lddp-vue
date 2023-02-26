@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', '我的订单']" />
+    <Breadcrumb :items="['记录', '我的订单']" />
     <div class="left-side" style="margin-top: 12px">
       <div class="panel">
         <DataPanel />
@@ -38,7 +38,7 @@
   }
 
   .panel {
-    padding: 20px;
+    padding: 10px;
     overflow: auto;
     background-color: var(--color-bg-2);
     border-radius: 4px;

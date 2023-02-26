@@ -12,21 +12,13 @@ import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    name: undefined,
-    avatar: undefined,
-    job: undefined,
-    organization: undefined,
-    location: undefined,
+    user_id: undefined,
     email: undefined,
-    introduction: undefined,
-    personalWebsite: undefined,
-    jobName: undefined,
-    organizationName: undefined,
-    locationName: undefined,
-    phone: undefined,
-    registrationDate: undefined,
-    accountId: undefined,
-    certification: undefined,
+    points: undefined,
+    to_day_order: undefined,
+    yes_day_order: undefined,
+    seven_days_order: undefined,
+    seven_days_date: undefined,
     role: '',
   }),
 
@@ -57,6 +49,7 @@ const useUserStore = defineStore('user', {
     async info() {
       const res = await getUserInfo();
 
+      // @ts-ignore
       this.setInfo(res.data);
     },
 

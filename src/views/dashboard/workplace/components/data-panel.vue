@@ -5,21 +5,15 @@
       :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
     >
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
         <a-statistic
-          :title="$t('workplace.onlineContent')"
-          :value="373"
+          title="今日订单数"
+          :value="userInfo.to_day_order"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
+            <span class="unit">个</span>
           </template>
         </a-statistic>
       </a-space>
@@ -29,21 +23,15 @@
       :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
     >
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
         <a-statistic
-          :title="$t('workplace.putIn')"
-          :value="368"
+          title="昨日订单数"
+          :value="userInfo.yes_day_order"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
+            <span class="unit">个</span>
           </template>
         </a-statistic>
       </a-space>
@@ -53,15 +41,13 @@
       :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
     >
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
         <a-statistic
-          :title="$t('workplace.newFromYesterday')"
-          :value="2.8"
+          title="较昨日新增"
+          :value="
+            ((userInfo.to_day_order - userInfo.yes_day_order) /
+              userInfo.yes_day_order) *
+            100
+          "
           :precision="1"
           :value-from="0"
           animation
@@ -76,22 +62,16 @@
       style="border-right: none"
     >
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
         <a-statistic
-          :title="$t('workplace.newDay')"
-          :value="8874"
+          title="余额（点券）"
+          :value="userInfo.points"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
             <a-space>
-              <a-link class="unit" href="#">充值</a-link>
+              <a-link class="unit" @click="handleClick">充值</a-link>
             </a-space>
           </template>
         </a-statistic>
@@ -101,9 +81,70 @@
       <a-divider class="panel-border" />
     </a-grid-item>
   </a-grid>
+  <a-modal
+    v-model:visible="visible"
+    width="354px"
+    @ok="handleOk"
+    @cancel="handleCancel"
+  >
+    <template #title> 点券充值 </template>
+    <div>
+      <a-form :model="UserRecharge" layout="horizontal">
+        <a-form-item
+          field="name"
+          label="充值卡"
+          :rules="[{ required: true, message: '卡密不能为空' }]"
+          :validate-trigger="['change', 'blur']"
+          hide-label
+        >
+          <a-input
+            v-model="UserRecharge.recharge_tickets"
+            placeholder="请输入充值卡密"
+          />
+        </a-form-item>
+      </a-form>
+    </div>
+  </a-modal>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { ref, reactive } from 'vue';
+  import { useUserStore } from '@/store';
+  import { userRecharge } from '@/api/user';
+  import { Message } from '@arco-design/web-vue';
+
+  const userInfo = useUserStore();
+
+  const visible = ref(false);
+
+  const UserRecharge = reactive({
+    recharge_tickets: '',
+  });
+
+  const handleClick = () => {
+    visible.value = true;
+  };
+  const handleOk = () => {
+    if (!UserRecharge.recharge_tickets) {
+      Message.error('卡密不能为空');
+      return;
+    }
+
+    // 发送充值请求
+    userRecharge(UserRecharge).then((res) => {
+      if (res.code === 2000) {
+        Message.success(res.data);
+        UserRecharge.recharge_tickets = '';
+        visible.value = false;
+        // 更新用户信息
+        userInfo.info();
+      }
+    });
+  };
+  const handleCancel = () => {
+    visible.value = false;
+  };
+</script>
 
 <style lang="less" scoped>
   .arco-grid.panel {

@@ -1,6 +1,13 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', '工作台']" />
+    <Breadcrumb :items="['个人中心', '工作台']" />
+    <div class="header" style="margin-bottom: 12px">
+      <a-image
+        width="100%"
+        :preview="false"
+        src="https://pic.6b7.xyz/2023/02/21/87792819dcb13.jpeg"
+      />
+    </div>
     <UserInfoHeader />
     <div class="left-side" style="margin-top: 12px">
       <div class="panel">
@@ -26,6 +33,30 @@
 </script>
 
 <style lang="less" scoped>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    :deep(.arco-avatar-trigger-icon-button) {
+      color: rgb(var(--arcoblue-6));
+
+      :deep(.arco-icon) {
+        vertical-align: -1px;
+      }
+    }
+
+    .user-msg {
+      .arco-icon {
+        color: rgb(var(--gray-10));
+      }
+
+      .arco-typography {
+        margin-left: 6px;
+      }
+    }
+  }
+
   .container {
     margin-bottom: 20px;
     padding: 0 20px 20px;

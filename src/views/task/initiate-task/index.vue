@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', '工作台']" />
+    <Breadcrumb :items="['任务', '发起任务']" />
     <div class="left-side" style="margin-top: 12px">
       <div class="panel">
         <Notice />

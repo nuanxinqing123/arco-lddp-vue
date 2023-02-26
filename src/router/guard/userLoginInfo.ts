@@ -31,6 +31,14 @@ export default function setupUserLoginInfoGuard(router: Router) {
         next();
         return;
       }
+      if (to.name === 'register') {
+        next();
+        return;
+      }
+      if (to.name === 'forget') {
+        next();
+        return;
+      }
       next({
         name: 'login',
         query: {

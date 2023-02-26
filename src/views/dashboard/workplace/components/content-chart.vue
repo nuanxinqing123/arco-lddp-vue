@@ -6,7 +6,7 @@
       :body-style="{
         paddingTop: '20px',
       }"
-      :title="$t('workplace.contentData')"
+      title="过去7日订单数据"
     >
       <Chart height="289px" :option="chartOption" />
     </a-card>
@@ -17,10 +17,12 @@
   import { ref } from 'vue';
   import { graphic } from 'echarts';
   import useLoading from '@/hooks/loading';
-  import { queryContentData, ContentDataRecord } from '@/api/dashboard';
   import useChartOption from '@/hooks/chart-option';
   import { ToolTipFormatterParams } from '@/types/echarts';
   import { AnyObject } from '@/types/global';
+  import { useUserStore } from '@/store';
+
+  const userInfo = useUserStore();
 
   function graphicFactory(side: AnyObject) {
     return {
@@ -42,7 +44,9 @@
     graphicFactory({ left: '2.6%' }),
     graphicFactory({ right: 0 }),
   ]);
-  const { chartOption } = useChartOption(() => {
+  xAxis.value = userInfo.seven_days_date;
+  chartsData.value = userInfo.seven_days_order;
+  const { chartOption } = useChartOption((): any => {
     return {
       grid: {
         left: '2.6%',
@@ -56,12 +60,7 @@
         data: xAxis.value,
         boundaryGap: false,
         axisLabel: {
-          color: '#4E5969',
-          formatter(value: number, idx: number) {
-            if (idx === 0) return '';
-            if (idx === xAxis.value.length - 1) return '';
-            return `${value}`;
-          },
+          show: false,
         },
         axisLine: {
           show: false,
@@ -71,10 +70,6 @@
         },
         splitLine: {
           show: true,
-          interval: (idx: number) => {
-            if (idx === 0) return false;
-            return idx !== xAxis.value.length - 1;
-          },
           lineStyle: {
             color: '#E5E8EF',
           },
@@ -95,7 +90,7 @@
         axisLabel: {
           formatter(value: any, idx: number) {
             if (idx === 0) return value;
-            return `${value}k`;
+            return `${value}`;
           },
         },
         splitLine: {
@@ -108,12 +103,12 @@
       },
       tooltip: {
         trigger: 'axis',
-        formatter(params) {
+        formatter(params: ToolTipFormatterParams[]) {
           const [firstElement] = params as ToolTipFormatterParams[];
           return `<div>
             <p class="tooltip-title">${firstElement.axisValueLabel}</p>
-            <div class="content-panel"><span>总内容量</span><span class="tooltip-value">${(
-              Number(firstElement.value) * 10000
+            <div class="content-panel"><span>订单量</span><span class="tooltip-value">${Number(
+              firstElement.value
             ).toLocaleString()}</span></div>
           </div>`;
         },
@@ -170,27 +165,7 @@
       ],
     };
   });
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const { data: chartData } = await queryContentData();
-      chartData.forEach((el: ContentDataRecord, idx: number) => {
-        xAxis.value.push(el.x);
-        chartsData.value.push(el.y);
-        if (idx === 0) {
-          graphicElements.value[0].style.text = el.x;
-        }
-        if (idx === chartData.length - 1) {
-          graphicElements.value[1].style.text = el.x;
-        }
-      });
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
+  setLoading(false);
 </script>
 
 <style scoped lang="less"></style>

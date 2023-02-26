@@ -1,0 +1,195 @@
+<template>
+  <a-spin :loading="loading" style="width: 100%">
+    <a-card
+      class="general-card"
+      :header-style="{ paddingBottom: 0 }"
+      :body-style="{
+        paddingTop: '20px',
+      }"
+      title="七日网站订单数据"
+    >
+      <Chart height="289px" :option="chartOption" />
+    </a-card>
+  </a-spin>
+</template>
+
+<script lang="ts" setup>
+  import { ref } from 'vue';
+  import { graphic } from 'echarts';
+  import useLoading from '@/hooks/loading';
+  import useChartOption from '@/hooks/chart-option';
+  import { ToolTipFormatterParams } from '@/types/echarts';
+  import { AnyObject } from '@/types/global';
+  import { getOrderChart } from '@/api/site-data';
+
+  function graphicFactory(side: AnyObject) {
+    return {
+      type: 'text',
+      bottom: '8',
+      ...side,
+      style: {
+        text: '',
+        textAlign: 'center',
+        fill: '#4E5969',
+        fontSize: 12,
+      },
+    };
+  }
+  const { loading, setLoading } = useLoading(true);
+  const xAxis = ref<string[]>([]);
+  const chartsData = ref<number[]>([]);
+  const graphicElements = ref([
+    graphicFactory({ left: '2.6%' }),
+    graphicFactory({ right: 0 }),
+  ]);
+  // xAxis.value = [
+  //   '2023-01-24',
+  //   '2023-01-25',
+  //   '2023-01-26',
+  //   '2023-01-27',
+  //   '2023-01-28',
+  //   '2023-01-29',
+  //   '2023-01-30',
+  // ];
+  // chartsData.value = [201, 303, 350, 401, 370, 330, 345];
+
+  // 获取网站订单图表数据
+  const getWebData = async () => {
+    const { data } = await getOrderChart();
+    xAxis.value = data.seven_days_date;
+    chartsData.value = data.seven_days_order;
+  };
+  getWebData();
+
+  const { chartOption } = useChartOption(() => {
+    return {
+      grid: {
+        left: '2.6%',
+        right: '0',
+        top: '10',
+        bottom: '30',
+      },
+      xAxis: {
+        type: 'category',
+        offset: 2,
+        data: xAxis.value,
+        boundaryGap: false,
+        axisLabel: {
+          color: '#4E5969',
+          formatter(value: number, idx: number) {
+            if (idx === 0) return '';
+            if (idx === xAxis.value.length - 1) return '';
+            return `${value}`;
+          },
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: true,
+          interval: (idx: number) => {
+            if (idx === 0) return false;
+            return idx !== xAxis.value.length - 1;
+          },
+          lineStyle: {
+            color: '#E5E8EF',
+          },
+        },
+        axisPointer: {
+          show: true,
+          lineStyle: {
+            color: '#23ADFF',
+            width: 2,
+          },
+        },
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          show: false,
+        },
+        axisLabel: {
+          formatter(value: any, idx: number) {
+            if (idx === 0) return value;
+            return `${value}`;
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'dashed',
+            color: '#E5E8EF',
+          },
+        },
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter(params) {
+          const [firstElement] = params as ToolTipFormatterParams[];
+          return `<div>
+            <p class="tooltip-title">${firstElement.axisValueLabel}</p>
+            <div class="content-panel"><span>订单数：</span><span class="tooltip-value">${Number(
+              firstElement.value
+            ).toLocaleString()} </span></div>
+          </div>`;
+        },
+        className: 'echarts-tooltip-diy',
+      },
+      graphic: {
+        elements: graphicElements.value,
+      },
+      series: [
+        {
+          data: chartsData.value,
+          type: 'line',
+          smooth: true,
+          // symbol: 'circle',
+          symbolSize: 12,
+          emphasis: {
+            focus: 'series',
+            itemStyle: {
+              borderWidth: 2,
+            },
+          },
+          lineStyle: {
+            width: 3,
+            color: new graphic.LinearGradient(0, 0, 1, 0, [
+              {
+                offset: 0,
+                color: 'rgba(30, 231, 255, 1)',
+              },
+              {
+                offset: 0.5,
+                color: 'rgba(36, 154, 255, 1)',
+              },
+              {
+                offset: 1,
+                color: 'rgba(111, 66, 251, 1)',
+              },
+            ]),
+          },
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.8,
+            color: new graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(17, 126, 255, 0.16)',
+              },
+              {
+                offset: 1,
+                color: 'rgba(17, 128, 255, 0)',
+              },
+            ]),
+          },
+        },
+      ],
+    };
+  });
+  setLoading(false);
+</script>
+
+<style scoped lang="less"></style>

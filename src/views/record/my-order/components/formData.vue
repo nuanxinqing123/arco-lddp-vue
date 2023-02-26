@@ -1,157 +1,230 @@
 <template>
-  <a-col class="banner">
-    <a-table :data="data">
-      <template #columns>
-        <a-table-column
-          :title="$t('order.form.Creation.Time')"
-          data-index="CreationTime"
-        >
-        </a-table-column>
-        <a-table-column
-          :title="$t('order.form.Order.Number')"
-          data-index="OrderNumber"
-        >
-        </a-table-column>
-        <a-table-column
-          :title="$t('order.form.Pay.Amount')"
-          data-index="PayAmount"
-        >
-        </a-table-column>
-        <a-table-column
-          :title="$t('order.form.Data')"
-          data-index="Data"
-        ></a-table-column>
-        <a-table-column
-          :title="$t('order.form.State')"
-          data-index="State"
-        ></a-table-column>
-        <a-table-column :title="$t('order.form.Operate')">
-          <template #cell>
-            <a-button type="outline" @click="handleClick">
-              <template #icon>
-                <icon-unordered-list />
-              </template>
-              <template #default>{{ $t('order.form.Check.Order') }}</template>
-            </a-button>
-          </template>
-        </a-table-column>
-      </template>
-    </a-table>
-    <a-divider class="panel-border" />
-  </a-col>
-  <a-modal v-model:visible="visible" @ok="handleOk" @cancel="handleCancel">
-    <template #title>{{ $t('order.form.Order.Details') }}</template>
-    <div>
-      <p>{{ $t('order.form.Creation.Time') }}：2023-02-11 08:03:36</p>
-      <p>{{ $t('order.form.Update.Time') }}：2023-02-11 20:51:24</p>
-      <p>{{ $t('order.form.Order.Number') }}：1676073816121</p>
-      <p>{{ $t('order.form.Pay.Amount') }}：1</p>
-      <p>{{ $t('order.form.Data') }}：购买流量 100 G</p>
-      <p>{{ $t('order.form.Order.Email') }}：bot@gmail.com</p>
-    </div>
+  <a-collapse>
+    <!--    <a-collapse-item key="2" header="订单号：5567104363270144">-->
+    <!--      <template #extra>-->
+    <!--        <a-link size="mini" style="color: #165dff">进行中</a-link>-->
+    <!--      </template>-->
+    <!--      <div>创建时间：2022-12-20 16:43:25</div>-->
+    <!--      <div>更新时间：2022-12-20 16:43:25</div>-->
+    <!--      <div>订单类型：mt</div>-->
+    <!--      <div>订单号：5567541694959616</div>-->
+    <!--      <div>消费点券：25&ensp;点券</div>-->
+    <!--      <div>任务数量：5</div>-->
+    <!--      <div>任务变量：123sd</div>-->
+    <!--      <div>订单状态：等待中</div>-->
+    <!--      <div>订单实况：Loading</div>-->
+    <!--      <div>订单备注：</div>-->
+    <!--      <div>任务备注：</div>-->
+    <!--      <div>-->
+    <!--        <a-button-->
+    <!--          style="-->
+    <!--            float: right;-->
+    <!--            margin-right: 20px;-->
+    <!--            margin-bottom: 10px;-->
+    <!--            margin-top: 10px;-->
+    <!--          "-->
+    <!--          shape="round"-->
+    <!--          type="primary"-->
+    <!--          size="small"-->
+    <!--          >退单</a-button-->
+    <!--        >-->
+    <!--      </div>-->
+    <!--    </a-collapse-item>-->
+    <!--    <a-collapse-item key="3" header="订单号：5567034683297792">-->
+    <!--      <template #extra>-->
+    <!--        <a-link size="mini" style="color: #bedaff">已完成</a-link>-->
+    <!--      </template>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--    </a-collapse-item>-->
+    <!--    <a-collapse-item key="4" header="订单号：5566623003971584">-->
+    <!--      <template #extra>-->
+    <!--        <a-link size="mini" style="color: #bedaff">已终止</a-link>-->
+    <!--      </template>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--    </a-collapse-item>-->
+    <!--    <a-collapse-item key="5" header="订单号：5564019087773696">-->
+    <!--      <template #extra>-->
+    <!--        <a-link size="mini" style="color: #165dff">退款中</a-link>-->
+    <!--      </template>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--    </a-collapse-item>-->
+    <!--    <a-collapse-item key="6" header="订单号：5564019087773696">-->
+    <!--      <template #extra>-->
+    <!--        <a-link size="mini" style="color: #bedaff">已退款</a-link>-->
+    <!--      </template>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
+    <!--    </a-collapse-item>-->
+    <span v-for="d in orderData.table" :key="d">
+      <a-collapse-item :key="d['ID']" :header="'订单号：' + d['order_id']">
+        <template #extra>
+          <a-link
+            v-if="d['order_state'] === -1"
+            size="mini"
+            style="color: #165dff"
+            >等待中</a-link
+          >
+          <a-link
+            v-else-if="d['order_state'] === 0"
+            size="mini"
+            style="color: #165dff"
+            >进行中</a-link
+          >
+          <a-link
+            v-else-if="d['order_state'] === 3"
+            size="mini"
+            style="color: #165dff"
+            >退款中</a-link
+          >
+          <a-link
+            v-else-if="d['order_state'] === 1"
+            size="mini"
+            style="color: #bedaff"
+            >已完成</a-link
+          >
+          <a-link
+            v-else-if="d['order_state'] === 2"
+            size="mini"
+            style="color: #bedaff"
+            >已终止</a-link
+          >
+          <a-link v-else size="mini" style="color: #bedaff">已退款</a-link>
+        </template>
+        <div style="color: #86909c">
+          <div>创建时间：{{ d['CreatedAt'] }}</div>
+          <div>更新时间：{{ d['UpdatedAt'] }}</div>
+          <div>订单类型：{{ d['order_task_type'] }}</div>
+          <div>消费点券：{{ d['order_tickets'] }}&ensp;点券</div>
+          <div>任务数量：{{ d['order_number'] }}</div>
+          <div>任务变量：{{ d['order_variable'] }}</div>
+          <div
+            >订单状态：
+            <span v-if="d['order_state'] === -1">等待中</span>
+            <span v-else-if="d['order_state'] === 0">进行中</span>
+            <span v-else-if="d['order_state'] === 1">已完成</span>
+            <span v-else-if="d['order_state'] === 2">已终止</span>
+            <span v-else-if="d['order_state'] === 3">退款中</span>
+            <span v-else>已退款</span>
+          </div>
+          <div
+            >订单实况：
+            <span v-if="d['order_status'] !== ''">{{ d['order_status'] }}</span>
+            <span v-else>&ensp;Loading</span>
+          </div>
+          <div>订单备注：{{ d['order_state_reason'] }}</div>
+          <div>任务备注：{{ d['order_remarks'] }}</div>
+        </div>
+        <div>
+          <a-button
+            v-if="d['order_state'] === -1 || d['order_state'] === 0"
+            style="
+              float: right;
+              margin-top: 10px;
+              margin-right: 20px;
+              margin-bottom: 10px;
+            "
+            shape="round"
+            type="primary"
+            size="small"
+            @click="handleClick(d['order_id'])"
+            >退单</a-button
+          >
+          <a-button
+            v-else
+            style="
+              float: right;
+              margin-top: 10px;
+              margin-right: 20px;
+              margin-bottom: 10px;
+            "
+            shape="round"
+            type="primary"
+            size="small"
+            disabled
+            >退单</a-button
+          >
+        </div>
+      </a-collapse-item>
+    </span>
+  </a-collapse>
+  <a-pagination
+    style="
+      float: right;
+      margin-top: 10px;
+      margin-right: 20px;
+      margin-bottom: 10px;
+    "
+    :total="basePagination.current * 10"
+    simple
+    @change="getUserOrderList"
+  />
+  <a-modal
+    v-model:visible="visible"
+    width="354px"
+    @ok="handleOk"
+    @cancel="handleCancel"
+  >
+    <template #title> 确认退款此订单？ </template>
+    <div>订单编号：{{ orderNumber.order_id }}</div>
   </a-modal>
 </template>
 
-<script>
+<script lang="ts" setup>
   import { reactive, ref } from 'vue';
+  import { getOrderList, refundOrder } from '@/api/record';
+  import { Pagination } from '@/types/global';
+  import moment from 'moment/moment';
+  import { Message } from '@arco-design/web-vue';
 
-  export default {
-    setup() {
-      const visible = ref(false);
-      const handleClick = () => {
-        visible.value = true;
-      };
-      const handleOk = () => {
-        visible.value = false;
-      };
-      const handleCancel = () => {
-        visible.value = false;
-      };
-      const columns = [
-        {
-          title: '创建时间',
-          dataIndex: 'CreationTime',
-        },
-        {
-          title: '订单编号',
-          dataIndex: 'OrderNumber',
-        },
-        {
-          title: '实付金额',
-          dataIndex: 'PayAmount',
-        },
-        {
-          title: '内容',
-          dataIndex: 'Data',
-        },
-        {
-          title: '状态',
-          dataIndex: 'State',
-        },
-        {
-          title: '操作',
-          dataIndex: 'Operation',
-        },
-      ];
-      const data = reactive([
-        {
-          key: '1',
-          CreationTime: '2023-02-11 20:51:24',
-          OrderNumber: 1676119884183,
-          PayAmount: '1',
-          Data: '购买流量 100 G',
-          State: '已完成',
-        },
-        {
-          key: '2',
-          CreationTime: '2023-02-11 08:03:36',
-          OrderNumber: 1676073816121,
-          PayAmount: '1',
-          Data: '购买流量 100 G',
-          State: '已完成',
-        },
-        {
-          key: '3',
-          CreationTime: '2023-02-10 14:33:21',
-          OrderNumber: 1676010801306,
-          PayAmount: '1',
-          Data: '购买流量 100 G',
-          State: '已完成',
-        },
-        {
-          key: '4',
-          CreationTime: '2023-02-09 21:21:22',
-          OrderNumber: 1675948882857,
-          PayAmount: '1',
-          Data: '购买流量 100 G',
-          State: '已完成',
-        },
-        {
-          key: '5',
-          CreationTime: '2023-02-09 16:21:25',
-          OrderNumber: 1675930885148,
-          PayAmount: '1',
-          Data: '购买流量 100 G',
-          State: '已完成',
-        },
-      ]);
+  const visible = ref(false);
+  const orderNumber = reactive({
+    order_id: '',
+  });
+  const basePagination: Pagination = {
+    current: 1,
+    pageSize: 20,
+  };
+  const orderData = reactive({
+    table: [],
+  });
 
-      return {
-        columns,
-        data,
-        visible,
-        handleClick,
-        handleOk,
-        handleCancel,
-      };
-    },
+  const getUserOrderList = async (page: number) => {
+    await getOrderList(page).then((res) => {
+      basePagination.current = res.data.page;
+      orderData.table = res.data.page_data;
+      orderData.table.forEach((item) => {
+        item.CreatedAt = moment(item.CreatedAt).format('YYYY-MM-DD HH:mm:ss');
+        item.UpdatedAt = moment(item.UpdatedAt).format('YYYY-MM-DD HH:mm:ss');
+      });
+    });
+  };
+  getUserOrderList(basePagination.current);
+
+  const handleClick = (order: string) => {
+    orderNumber.order_id = order;
+    visible.value = true;
+  };
+  const handleOk = () => {
+    refundOrder(orderNumber.order_id).then((res) => {
+      if (res.code === 2000) {
+        Message.success('申请退单成功');
+        getUserOrderList(basePagination.current);
+      }
+    });
+    visible.value = false;
+  };
+  const handleCancel = () => {
+    visible.value = false;
   };
 </script>
 
 <style scoped lang="less">
   .banner {
     width: 100%;
-    padding: 20px 20px 0;
+    padding: 10px 10px 0;
     background-color: var(--color-bg-2);
     border-radius: 4px 4px 0 0;
   }

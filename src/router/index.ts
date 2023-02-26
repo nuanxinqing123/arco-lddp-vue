@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import NProgress from 'nprogress'; // progress bar
 import 'nprogress/nprogress.css';
 
@@ -9,7 +9,7 @@ import createRouteGuard from './guard';
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -19,6 +19,22 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/login/index.vue'),
+      meta: {
+        requiresAuth: false,
+      },
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/register/index.vue'),
+      meta: {
+        requiresAuth: false,
+      },
+    },
+    {
+      path: '/forget',
+      name: 'forget',
+      component: () => import('@/views/findpwd/index.vue'),
       meta: {
         requiresAuth: false,
       },

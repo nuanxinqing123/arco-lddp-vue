@@ -10,7 +10,7 @@
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          Arco Pro
+          LDDP
         </a-typography-title>
         <icon-menu-fold
           v-if="!topMenu && appStore.device === 'mobile'"
@@ -26,9 +26,7 @@
       <li>
         <a-tooltip
           :content="
-            theme === 'light'
-              ? $t('settings.navbar.theme.toDark')
-              : $t('settings.navbar.theme.toLight')
+            theme === 'light' ? '点击切换为暗黑模式' : '点击切换为亮色模式'
           "
         >
           <a-button
@@ -46,11 +44,7 @@
       </li>
       <li>
         <a-tooltip
-          :content="
-            isFullscreen
-              ? $t('settings.navbar.screen.toExit')
-              : $t('settings.navbar.screen.toFull')
-          "
+          :content="isFullscreen ? '点击退出全屏模式' : '点击切换全屏模式'"
         >
           <a-button
             class="nav-btn"
@@ -74,36 +68,28 @@
             <img alt="avatar" :src="avatar" />
           </a-avatar>
           <template #content>
+            <!--            <a-doption>-->
+            <!--              <a-space @click="switchRoles">-->
+            <!--                <icon-tag />-->
+            <!--                <span> 切换角色 </span>-->
+            <!--              </a-space>-->
+            <!--            </a-doption>-->
             <a-doption>
-              <a-space @click="switchRoles">
-                <icon-tag />
-                <span>
-                  {{ $t('messageBox.switchRoles') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="$router.push({ name: 'Info' })">
+              <a-space @click="$router.push({ name: 'dashboard' })">
                 <icon-user />
-                <span>
-                  {{ $t('messageBox.userCenter') }}
-                </span>
+                <span> 用户中心 </span>
               </a-space>
             </a-doption>
-            <a-doption>
-              <a-space @click="$router.push({ name: 'Setting' })">
-                <icon-settings />
-                <span>
-                  {{ $t('messageBox.userSettings') }}
-                </span>
-              </a-space>
-            </a-doption>
+            <!--            <a-doption>-->
+            <!--              <a-space @click="$router.push({ name: 'Setting' })">-->
+            <!--                <icon-settings />-->
+            <!--                <span> 用户设置 </span>-->
+            <!--              </a-space>-->
+            <!--            </a-doption>-->
             <a-doption>
               <a-space @click="handleLogout">
                 <icon-export />
-                <span>
-                  {{ $t('messageBox.logout') }}
-                </span>
+                <span> 登出登录 </span>
               </a-space>
             </a-doption>
           </template>
@@ -126,7 +112,7 @@
   const { logout } = useUser();
   const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
   const avatar = computed(() => {
-    return userStore.avatar;
+    return 'https://lf1-xgcdn-tos.pstatp.com/obj/vcloud/vadmin/start.8e0e4855ee346a46ccff8ff3e24db27b.png';
   });
   const theme = computed(() => {
     return appStore.theme;
