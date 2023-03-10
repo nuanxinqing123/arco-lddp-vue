@@ -9,6 +9,7 @@ export interface ProjectList {
   project_type: string;
   project_price: number;
   project_remarks: string;
+  project_tips: string;
 }
 
 export interface ProjectSend {

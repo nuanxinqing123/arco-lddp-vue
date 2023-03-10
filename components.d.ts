@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem'];
     AButton: typeof import('@arco-design/web-vue')['Button'];
     ACard: typeof import('@arco-design/web-vue')['Card'];
+    ACheckbox: typeof import('@arco-design/web-vue')['Checkbox'];
     ACol: typeof import('@arco-design/web-vue')['Col'];
     ACollapse: typeof import('@arco-design/web-vue')['Collapse'];
     ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem'];

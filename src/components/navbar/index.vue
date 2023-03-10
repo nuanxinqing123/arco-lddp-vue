@@ -4,7 +4,7 @@
       <a-space>
         <img
           alt="logo"
-          src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"
+          src="https://pic.6b7.xyz/2023/02/28/98ad89022a0b2.ico"
         />
         <a-typography-title
           :style="{ margin: 0, fontSize: '18px' }"
@@ -74,12 +74,12 @@
             <!--                <span> 切换角色 </span>-->
             <!--              </a-space>-->
             <!--            </a-doption>-->
-            <a-doption>
-              <a-space @click="$router.push({ name: 'dashboard' })">
-                <icon-user />
-                <span> 用户中心 </span>
-              </a-space>
-            </a-doption>
+            <!--            <a-doption>-->
+            <!--              <a-space @click="$router.push({ name: 'dashboard' })">-->
+            <!--                <icon-user />-->
+            <!--                <span> 用户中心 </span>-->
+            <!--              </a-space>-->
+            <!--            </a-doption>-->
             <!--            <a-doption>-->
             <!--              <a-space @click="$router.push({ name: 'Setting' })">-->
             <!--                <icon-settings />-->
@@ -136,6 +136,7 @@
   const handleLogout = () => {
     logout();
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const switchRoles = async () => {
     const res = await userStore.switchRoles();
     Message.success(res as string);

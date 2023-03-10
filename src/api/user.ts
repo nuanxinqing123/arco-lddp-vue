@@ -88,7 +88,7 @@ export function userDataSearch(data: any) {
 }
 
 export function logout() {
-  return axios.post<LoginRes>('/v1/api/user/logout');
+  return axios.post('/v2/api/user/logout');
 }
 
 export function getMenuList() {

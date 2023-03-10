@@ -244,10 +244,13 @@
     form.is_state = record.is_state !== true;
     if (record.role === 'user') {
       selectModel.value = '用户';
+      form.role = 'user';
     } else if (record.role === 'proxy') {
       selectModel.value = '代理';
+      form.role = 'proxy';
     } else if (record.role === 'admin') {
       selectModel.value = '管理员';
+      form.role = 'admin';
     }
     visible.value = true;
   };

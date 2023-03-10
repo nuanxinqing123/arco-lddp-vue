@@ -114,7 +114,7 @@
       dataIndex: 'login_function',
     },
     {
-      title: '充值时间',
+      title: '登录时间',
       dataIndex: 'CreatedAt',
     },
   ];

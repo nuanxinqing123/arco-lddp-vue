@@ -1,4 +1,8 @@
 <template>
+  <a-alert v-show="showTips.show" type="warning" :show-icon="false">
+    <template #title> 任务提示 </template>
+    <div id="tips"></div>
+  </a-alert>
   <a-space
     direction="vertical"
     size="large"
@@ -35,11 +39,11 @@
           </a-statistic>
         </a-space>
       </a-form-item>
-      <!--      <div>-->
-      <!--        <a href="javascript:" class="file"-->
-      <!--          >选择文件 <input type="file" accept="image/*"-->
-      <!--        /></a>-->
-      <!--      </div>-->
+      <a-form-item field="name" label="辅助功能">
+        <a href="javascript:" class="file"
+          >二维码识别 <input type="file" accept="image/*" @change="qrCode"
+        /></a>
+      </a-form-item>
       <a-form-item field="name" label="任务变量">
         <a-textarea v-model="form.variable" allow-clear show-word-limit />
       </a-form-item>
@@ -47,7 +51,7 @@
         <a-input-number
           v-model="form.number"
           class="input-demo"
-          placeholder="任务票数（1票以上）"
+          placeholder="任务数量（1及以上）"
           :min="1"
         />
       </a-form-item>
@@ -76,6 +80,7 @@
   import { getProjectList, ProjectList, sendProject } from '@/api/task';
   import { reactive } from 'vue';
   import { Message } from '@arco-design/web-vue';
+  import jsQR from 'jsqr';
 
   // 项目信息
   let projectData: ProjectList[] = [];
@@ -90,6 +95,10 @@
     number: null,
     remarks: '',
   });
+  // 任务提示显隐
+  const showTips = reactive({
+    show: false,
+  });
   const gpl = () => {
     getProjectList().then((res) => {
       projectData = res.data;
@@ -103,13 +112,50 @@
       if (item.project_type === value) {
         form.task_type = item.project_type;
         priceData.project_price = item.project_price;
+        if (item.project_tips !== '') {
+          document.getElementById('tips')!.innerHTML = item.project_tips;
+          showTips.show = true;
+        } else {
+          showTips.show = false;
+        }
       } else if (item.project_remarks === value) {
         form.task_type = item.project_type;
         priceData.project_price = item.project_price;
+        if (item.project_tips !== '') {
+          document.getElementById('tips')!.innerHTML = item.project_tips;
+          showTips.show = true;
+        } else {
+          showTips.show = false;
+        }
       }
     });
   };
-
+  // 二维码识别
+  const qrCode = () => {
+    const file = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file.files[0]);
+    fileReader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+        const imageData = ctx?.getImageData(0, 0, img.width, img.height);
+        const code = jsQR(imageData?.data, img.width, img.height);
+        if (code) {
+          form.variable = code.data;
+        } else {
+          form.variable = '无法识别图中二维码';
+        }
+      };
+    };
+  };
   // 提交按钮被点击
   const submit = () => {
     sendProject(form).then((res) => {
@@ -128,7 +174,6 @@
   .file {
     position: relative;
     display: inline-block;
-    margin-left: 10px;
     padding: 5px 10px;
     overflow: hidden;
     color: #c78c1e;

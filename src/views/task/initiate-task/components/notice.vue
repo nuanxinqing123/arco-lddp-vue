@@ -2,6 +2,7 @@
   <a-alert title="任务公告">
     <div id="notice"></div>
   </a-alert>
+  <a-divider />
 </template>
 
 <script lang="ts" setup>

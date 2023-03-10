@@ -60,7 +60,7 @@ axios.interceptors.response.use(
       });
 
       // 封装错误处理
-      if ([5003].includes(res.code)) {
+      if ([5003, 5004].includes(res.code)) {
         Modal.warning({
           width: 350,
           title: '状态失效',

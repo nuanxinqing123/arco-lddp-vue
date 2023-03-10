@@ -1,65 +1,7 @@
 <template>
   <a-collapse>
-    <!--    <a-collapse-item key="2" header="订单号：5567104363270144">-->
-    <!--      <template #extra>-->
-    <!--        <a-link size="mini" style="color: #165dff">进行中</a-link>-->
-    <!--      </template>-->
-    <!--      <div>创建时间：2022-12-20 16:43:25</div>-->
-    <!--      <div>更新时间：2022-12-20 16:43:25</div>-->
-    <!--      <div>订单类型：mt</div>-->
-    <!--      <div>订单号：5567541694959616</div>-->
-    <!--      <div>消费点券：25&ensp;点券</div>-->
-    <!--      <div>任务数量：5</div>-->
-    <!--      <div>任务变量：123sd</div>-->
-    <!--      <div>订单状态：等待中</div>-->
-    <!--      <div>订单实况：Loading</div>-->
-    <!--      <div>订单备注：</div>-->
-    <!--      <div>任务备注：</div>-->
-    <!--      <div>-->
-    <!--        <a-button-->
-    <!--          style="-->
-    <!--            float: right;-->
-    <!--            margin-right: 20px;-->
-    <!--            margin-bottom: 10px;-->
-    <!--            margin-top: 10px;-->
-    <!--          "-->
-    <!--          shape="round"-->
-    <!--          type="primary"-->
-    <!--          size="small"-->
-    <!--          >退单</a-button-->
-    <!--        >-->
-    <!--      </div>-->
-    <!--    </a-collapse-item>-->
-    <!--    <a-collapse-item key="3" header="订单号：5567034683297792">-->
-    <!--      <template #extra>-->
-    <!--        <a-link size="mini" style="color: #bedaff">已完成</a-link>-->
-    <!--      </template>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--    </a-collapse-item>-->
-    <!--    <a-collapse-item key="4" header="订单号：5566623003971584">-->
-    <!--      <template #extra>-->
-    <!--        <a-link size="mini" style="color: #bedaff">已终止</a-link>-->
-    <!--      </template>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--    </a-collapse-item>-->
-    <!--    <a-collapse-item key="5" header="订单号：5564019087773696">-->
-    <!--      <template #extra>-->
-    <!--        <a-link size="mini" style="color: #165dff">退款中</a-link>-->
-    <!--      </template>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--    </a-collapse-item>-->
-    <!--    <a-collapse-item key="6" header="订单号：5564019087773696">-->
-    <!--      <template #extra>-->
-    <!--        <a-link size="mini" style="color: #bedaff">已退款</a-link>-->
-    <!--      </template>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--      <div>Beijing Toutiao Technology Co., Ltd.</div>-->
-    <!--    </a-collapse-item>-->
     <span v-for="d in orderData.table" :key="d">
-      <a-collapse-item :key="d['ID']" :header="'订单号：' + d['order_id']">
+      <a-collapse-item :key="d['ID']" :header="'创建时间：' + d['CreatedAt']">
         <template #extra>
           <a-link
             v-if="d['order_state'] === -1"
@@ -210,7 +152,7 @@
   const handleOk = () => {
     refundOrder(orderNumber.order_id).then((res) => {
       if (res.code === 2000) {
-        Message.success('申请退单成功');
+        Message.success('已申请退单');
         getUserOrderList(basePagination.current);
       }
     });

@@ -39,7 +39,7 @@
         <a-form-item field="project_agent_price" label="项目代理价格">
           <a-input-number v-model="formAdd.project_agent_price" />
         </a-form-item>
-        <a-form-item field="project_remarks" label="项目备注">
+        <a-form-item field="project_remarks" label="项目名称">
           <a-input v-model="formAdd.project_remarks" />
         </a-form-item>
       </a-form>
@@ -131,17 +131,36 @@
         <a-form-item field="points" label="项目价格">
           <a-input-number v-model="form.project_price" />
         </a-form-item>
-        <a-form-item field="points" label="项目代理价格">
+        <a-form-item field="project_agent_price" label="项目代理价格">
           <a-input-number v-model="form.project_agent_price" />
         </a-form-item>
-        <a-form-item field="email" label="项目备注">
+        <a-form-item field="forward_name" label="绑定转发">
+          <a-select
+            v-model="selectModel"
+            placeholder="选择已添加转发项"
+            @change="handleClickForwardChange"
+          >
+            <a-option v-for="item in ForwardData.table" :key="item.id">
+              {{ item.forward_name }}
+            </a-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item field="project_remarks" label="项目名称">
           <a-input v-model="form.project_remarks" />
         </a-form-item>
         <a-form-item field="is_state" label="是否允许下单">
           <a-switch v-model="form.project_state" />
         </a-form-item>
-        <a-form-item field="is_state" label="代理是否允许下单">
+        <a-form-item field="project_agent_state" label="代理是否允许下单">
           <a-switch v-model="form.project_agent_state" />
+        </a-form-item>
+        <a-form-item field="project_tips" label="任务提示">
+          <a-textarea
+            v-model="form.project_tips"
+            placeholder="任务提示内容(支持HTML渲染)"
+            allow-clear
+            show-word-limit
+          />
         </a-form-item>
       </a-form>
     </div>
@@ -160,6 +179,7 @@
   } from '@/api/task';
   import moment from 'moment/moment';
   import { Message } from '@arco-design/web-vue';
+  import { getForwardSimple } from '@/api/forward';
 
   const basePagination: Pagination = {
     current: 1,
@@ -183,7 +203,7 @@
       dataIndex: 'project_agent_price',
     },
     {
-      title: '项目备注',
+      title: '项目名称',
       dataIndex: 'project_remarks',
     },
     {
@@ -208,12 +228,17 @@
   const data = reactive({
     table: [],
   });
+  const ForwardData = reactive({
+    table: [],
+  });
   const form = reactive({
     id: 0,
     project_type: '',
     project_price: null,
     project_agent_price: null,
+    project_api: -1,
     project_remarks: '',
+    project_tips: '',
     project_state: true,
     project_agent_state: false,
   });
@@ -233,6 +258,7 @@
   const visibleAdd = ref(false);
   const visibleSearch = ref(false);
   const visible = ref(false);
+  const selectModel = ref();
 
   const getProjectData = async (page: number) => {
     await getProjectDataList(page).then((res) => {
@@ -245,14 +271,18 @@
   };
   getProjectData(basePagination.current);
 
-  const handleClick = (record: any) => {
+  const handleClick = async (record: any) => {
     form.id = record.ID;
     form.project_type = record.project_type;
     form.project_price = record.project_price;
     form.project_agent_price = record.project_agent_price;
+    form.project_api = record.project_api;
     form.project_remarks = record.project_remarks;
+    form.project_tips = record.project_tips;
     form.project_state = record.project_state;
     form.project_agent_state = record.project_agent_state;
+    // eslint-disable-next-line no-use-before-define
+    await handleClickForward(record.project_api);
     visible.value = true;
   };
   const handleOk = () => {
@@ -264,6 +294,17 @@
     if (!form.project_price) {
       Message.error('项目价格不能为空');
       return;
+    }
+
+    // 修改转发API为转发ID
+    if (selectModel.value) {
+      ForwardData.table.forEach((item) => {
+        if (item.forward_name === selectModel.value) {
+          form.project_api = item.id;
+        } else {
+          form.project_api = -1;
+        }
+      });
     }
 
     updateProject(form).then((res) => {
@@ -345,6 +386,24 @@
       if (res.code === 2000) {
         Message.success('删除成功');
         getProjectData(basePagination.current);
+      }
+    });
+  };
+  const handleClickForwardChange = (ID: any) => {
+    selectModel.value = ID;
+  };
+  const handleClickForward = (id: any) => {
+    getForwardSimple().then((res) => {
+      if (res.code === 2000) {
+        ForwardData.table = res.data;
+
+        ForwardData.table.forEach((item) => {
+          if (item.id === id) {
+            selectModel.value = item.forward_name;
+          } else {
+            selectModel.value = '';
+          }
+        });
       }
     });
   };
