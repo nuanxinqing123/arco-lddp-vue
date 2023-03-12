@@ -43,7 +43,10 @@
         :validate-trigger="['change', 'blur']"
         hide-label
       >
-        <a-input-password v-model="userInfo.user_key" placeholder="新密码">
+        <a-input-password
+          v-model="userInfo.user_key"
+          placeholder="新密码(请不要使用弱口令密码)"
+        >
           <template #prefix>
             <icon-lock />
           </template>
@@ -108,14 +111,8 @@
 <script lang="ts" setup>
   import { ref, reactive } from 'vue';
   import { Message } from '@arco-design/web-vue';
-  import {
-    getVerificationCode,
-    register,
-    sendFindPwdCode,
-    sendUpPwd,
-  } from '@/api/user';
+  import { getVerificationCode, sendFindPwdCode, sendUpPwd } from '@/api/user';
   import { useRouter } from 'vue-router';
-  import { setToken } from '@/utils/auth';
   import CryptoJS from 'crypto-js';
 
   const router = useRouter();

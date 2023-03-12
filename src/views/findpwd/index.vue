@@ -9,7 +9,7 @@
       <div class="logo">
         <img
           alt="logo"
-          src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"
+          src="https://pic.6b7.xyz/2023/02/28/98ad89022a0b2.ico"
         />
         <div class="logo-text" style="color: #598bff">LDDP</div>
       </div>

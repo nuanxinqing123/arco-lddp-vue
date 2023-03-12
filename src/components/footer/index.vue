@@ -1,7 +1,9 @@
 <template>
   <a-layout-footer class="footer">
     LDDP&ensp;&ensp;
-    <a-link><icon-user-add />&ensp;申请入驻</a-link>
+    <a-link href="https://t.me/+aybtHHjUmDxhODE9"
+      ><icon-user-add />&ensp;申请入驻</a-link
+    >
   </a-layout-footer>
 </template>
 

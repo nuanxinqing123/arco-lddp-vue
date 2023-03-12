@@ -28,7 +28,7 @@
       >
         <a-input-password
           v-model="userInfo.user_key"
-          placeholder="密码"
+          placeholder="密码(请不要使用弱口令密码)"
           allow-clear
         >
           <template #prefix>
