@@ -27,6 +27,7 @@ export default mergeConfig(
         },
       },
       chunkSizeWarningLimit: 2000,
+      minify: 'terser', // 混淆器，terser构建后文件体积更小
     },
     base: process.env.VITE_TEST === 'development' ? './' : '/static/', // 公共路径,
   },

@@ -68,24 +68,6 @@
             <img alt="avatar" :src="avatar" />
           </a-avatar>
           <template #content>
-            <!--            <a-doption>-->
-            <!--              <a-space @click="switchRoles">-->
-            <!--                <icon-tag />-->
-            <!--                <span> 切换角色 </span>-->
-            <!--              </a-space>-->
-            <!--            </a-doption>-->
-            <!--            <a-doption>-->
-            <!--              <a-space @click="$router.push({ name: 'dashboard' })">-->
-            <!--                <icon-user />-->
-            <!--                <span> 用户中心 </span>-->
-            <!--              </a-space>-->
-            <!--            </a-doption>-->
-            <!--            <a-doption>-->
-            <!--              <a-space @click="$router.push({ name: 'Setting' })">-->
-            <!--                <icon-settings />-->
-            <!--                <span> 用户设置 </span>-->
-            <!--              </a-space>-->
-            <!--            </a-doption>-->
             <a-doption>
               <a-space @click="handleLogout">
                 <icon-export />

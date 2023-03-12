@@ -1,12 +1,49 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['个人中心', '工作台']" />
-    <div class="header" style="margin-bottom: 12px">
-      <a-image
-        width="100%"
-        :preview="false"
-        src="https://pic.6b7.xyz/2023/02/21/87792819dcb13.jpeg"
-      />
+    <div v-show="!isShow" class="header" style="margin-bottom: 12px">
+      <a-carousel
+        id="lb-img"
+        :style="{
+          width: '100%',
+          height: '180px',
+        }"
+        :auto-play="true"
+        indicator-type="dot"
+        show-arrow="hover"
+      >
+        <a-carousel-item v-for="image in imagesPC" :key="image">
+          <img
+            :src="image"
+            :style="{
+              width: '100%',
+            }"
+            alt="images"
+          />
+        </a-carousel-item>
+      </a-carousel>
+    </div>
+    <div v-show="isShow" class="header" style="margin-bottom: 12px">
+      <a-carousel
+        id="lb-img"
+        :style="{
+          width: '100%',
+          height: '130px',
+        }"
+        :auto-play="true"
+        indicator-type="dot"
+        show-arrow="hover"
+      >
+        <a-carousel-item v-for="image in imagesMb" :key="image">
+          <img
+            :src="image"
+            :style="{
+              width: '100%',
+            }"
+            alt="images"
+          />
+        </a-carousel-item>
+      </a-carousel>
     </div>
     <UserInfoHeader />
     <div class="left-side" style="margin-top: 12px">
@@ -20,10 +57,24 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue';
   import UserInfoHeader from './components/user-info-header.vue';
   import Banner from './components/banner.vue';
   import DataPanel from './components/data-panel.vue';
   import ContentChart from './components/content-chart.vue';
+
+  const isShow = ref(false);
+  const imagesPC = [
+    'https://pic.6b7.xyz/2023/03/12/ec31420268b23.png',
+    'https://pic.6b7.xyz/2023/03/12/9a923ce2d801d.png',
+  ];
+  const imagesMb = ['https://pic.6b7.xyz/2023/03/12/307b311f1c6bc.png'];
+
+  // 判断窗口的宽高
+  const width = window.innerWidth;
+  // 判断是否是移动端
+  const isMobile = width < 768;
+  isShow.value = isMobile;
 </script>
 
 <script lang="ts">

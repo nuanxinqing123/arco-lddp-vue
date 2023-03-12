@@ -40,6 +40,7 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",
+    "javascript-obfuscator": "^4.0.2",
     "js-file-download": "^0.4.12",
     "jsqr": "^1.4.0",
     "lodash": "^4.17.21",
@@ -52,11 +53,13 @@
     "qrcode-reader": "^1.0.4",
     "query-string": "^8.0.3",
     "sortablejs": "^1.15.0",
+    "terser": "^5.16.6",
     "vue": "^3.2.40",
     "vue-echarts": "^6.2.3",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.14",
-    "vue3-qr-reader": "^1.0.0"
+    "vue3-qr-reader": "^1.0.0",
+    "webpack-obfuscator": "^3.5.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
