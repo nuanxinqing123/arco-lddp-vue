@@ -161,7 +161,6 @@
     sendProject(form).then((res) => {
       if (res.code === 2000) {
         Message.success('任务创建成功');
-        form.task_type = '';
         form.variable = '';
         form.number = null;
         form.remarks = '';

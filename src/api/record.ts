@@ -93,7 +93,9 @@ export function getOrderDataList(pageNum: number) {
 }
 
 export function orderDataSearch(data: any) {
-  return axios.get(`/v3/api/order/search?s=${data.data}`);
+  return axios.get(
+    `/v3/api/order/search?type=${data.fc}&state=${data.state}&s=${data.data}`
+  );
 }
 
 export function getAdminConsumptionList(pageNum: number) {

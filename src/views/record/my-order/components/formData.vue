@@ -38,6 +38,7 @@
         <div style="color: #86909c">
           <div>创建时间：{{ d['CreatedAt'] }}</div>
           <div>更新时间：{{ d['UpdatedAt'] }}</div>
+          <div>订单编号：{{ d['order_id'] }}</div>
           <div>订单类型：{{ d['order_task_type'] }}</div>
           <div>消费点券：{{ d['order_tickets'] }}&ensp;点券</div>
           <div>任务数量：{{ d['order_number'] }}</div>

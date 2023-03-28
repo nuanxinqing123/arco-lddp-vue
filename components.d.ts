@@ -14,6 +14,8 @@ declare module '@vue/runtime-core' {
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem'];
     AButton: typeof import('@arco-design/web-vue')['Button'];
     ACard: typeof import('@arco-design/web-vue')['Card'];
+    ACarousel: typeof import('@arco-design/web-vue')['Carousel'];
+    ACarouselItem: typeof import('@arco-design/web-vue')['CarouselItem'];
     ACheckbox: typeof import('@arco-design/web-vue')['Checkbox'];
     ACol: typeof import('@arco-design/web-vue')['Col'];
     ACollapse: typeof import('@arco-design/web-vue')['Collapse'];
@@ -27,7 +29,6 @@ declare module '@vue/runtime-core' {
     AFormItem: typeof import('@arco-design/web-vue')['FormItem'];
     AGrid: typeof import('@arco-design/web-vue')['Grid'];
     AGridItem: typeof import('@arco-design/web-vue')['GridItem'];
-    AImage: typeof import('@arco-design/web-vue')['Image'];
     AInput: typeof import('@arco-design/web-vue')['Input'];
     AInputNumber: typeof import('@arco-design/web-vue')['InputNumber'];
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword'];

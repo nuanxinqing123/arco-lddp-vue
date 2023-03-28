@@ -25,13 +25,37 @@
       <a-form :model="search" layout="vertical">
         <a-form-item field="email" label="检索内容">
           <a-select placeholder="选择检索项" @change="handleClickSearchChange">
+            <a-option>订单类名</a-option>
             <a-option>订单号</a-option>
+            <a-option>订单任务变量</a-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item v-show="visibleState" field="state" label="检索状态">
+          <a-select
+            placeholder="选择检索项"
+            @change="handleClickSearchStateChange"
+          >
+            <a-option>等待中</a-option>
+            <a-option>进行中</a-option>
+            <a-option>已完成</a-option>
+            <a-option>已终止</a-option>
+            <a-option>退款中</a-option>
+            <a-option>已退款</a-option>
           </a-select>
         </a-form-item>
         <a-form-item field="points" label="欲检索内容">
           <a-input v-model="search.data" placeholder="值（支持模糊搜索）" />
         </a-form-item>
       </a-form>
+      <div>
+        <p>
+          检索内容为「订单类名」时，欲检索内容应该填写需要检索的「订单类型」
+        </p>
+        <p> 检索内容为「订单号」时，欲检索内容应该填写需要检索的「订单号」 </p>
+        <p>
+          检索内容为「订单任务变量」时，欲检索内容应该填写需要检索的「订单内的任务变量值」
+        </p>
+      </div>
     </div>
   </a-drawer>
   <a-divider />
@@ -125,6 +149,7 @@
     data: '',
   });
   const visible = ref(false);
+  const visibleState = ref(false);
 
   const getOrderData = async (page: number) => {
     await getOrderDataList(page).then((res) => {
@@ -141,6 +166,10 @@
   };
   const handleClickSearchChange = (fc: any) => {
     search.fc = fc;
+    visibleState.value = fc === '订单类名';
+  };
+  const handleClickSearchStateChange = (fc: any) => {
+    search.state = fc;
   };
   const handleOk = () => {
     if (!search.fc) {
