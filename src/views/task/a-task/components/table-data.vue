@@ -140,6 +140,7 @@
             placeholder="选择已添加转发项"
             @change="handleClickForwardChange"
           >
+            <a-option value="0">不绑定</a-option>
             <a-option v-for="item in ForwardData.table" :key="item.id">
               {{ item.forward_name }}
             </a-option>

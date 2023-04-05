@@ -126,10 +126,10 @@
   const orderNumber = reactive({
     order_id: '',
   });
-  const basePagination: Pagination = {
+  const basePagination: Pagination = reactive({
     current: 1,
-    pageSize: 20,
-  };
+    pageSize: 100,
+  });
   const orderData = reactive({
     table: [],
   });

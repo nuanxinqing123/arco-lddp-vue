@@ -94,7 +94,6 @@
           <a-input-number v-model="form.points" />
         </a-form-item>
         <a-form-item field="is_admin" label="角色权限">
-          <!--          <a-switch v-model="form.role" />-->
           <a-select
             v-model="selectModel"
             placeholder="选择角色权限"
@@ -104,6 +103,9 @@
             <a-option>代理</a-option>
             <a-option>管理员</a-option>
           </a-select>
+        </a-form-item>
+        <a-form-item field="remarks" label="用户备注">
+          <a-input v-model="form.remarks" />
         </a-form-item>
         <a-form-item field="is_state" label="是否封禁">
           <a-switch v-model="form.is_state" />
@@ -152,6 +154,10 @@
       slotName: 'is_state',
     },
     {
+      title: '用户备注',
+      dataIndex: 'remarks',
+    },
+    {
       title: '登录IP',
       dataIndex: 'login_ip',
     },
@@ -172,6 +178,7 @@
     email: '',
     points: 0,
     role: '',
+    remarks: '',
     is_state: false,
   });
   const search = reactive({
