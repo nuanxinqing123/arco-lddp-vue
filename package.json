@@ -37,7 +37,7 @@
     "@wangeditor/editor-for-vue": "^5.1.12",
     "arco-design-pro-vue": "^2.6.1",
     "axios": "^0.24.0",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",
     "javascript-obfuscator": "^4.0.2",
